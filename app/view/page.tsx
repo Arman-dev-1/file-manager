@@ -1,9 +1,9 @@
-"use client"; // Ensures this runs only in the client
+"use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function ViewPage() {
+function DocumentViewer() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [documentData, setDocumentData] = useState<any | null>(null);
@@ -22,7 +22,7 @@ export default function ViewPage() {
         });
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.status}`); // Handle errors properly
+          throw new Error(`Error: ${response.status}`);
         }
 
         const data = await response.json();
@@ -43,7 +43,6 @@ export default function ViewPage() {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">{documentData.name}</h1>
 
-      {/* Render Excel Data */}
       {documentData.type === "xlsx" ? (
         Object.keys(documentData.content || {}).map((sheetName, index) => (
           <div key={index} className="mb-6">
@@ -54,7 +53,7 @@ export default function ViewPage() {
                   <tr key={rowIndex} className="border border-gray-300">
                     {row.map((cell, cellIndex) => (
                       <td key={cellIndex} className="border border-gray-300 p-2">
-                        {cell || "-"} {/* Handle empty cells */}
+                        {cell || "-"}
                       </td>
                     ))}
                   </tr>
@@ -73,3 +72,12 @@ export default function ViewPage() {
     </div>
   );
 }
+
+export default function ViewPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      {typeof window === "undefined" ? null : <DocumentViewer />}
+    </Suspense>
+  );
+}
+
