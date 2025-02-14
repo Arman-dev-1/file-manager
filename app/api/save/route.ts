@@ -6,7 +6,7 @@ const client = new MongoClient(uri);
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json(); // Get full body
+    const body = await req.json() || {}; // Get full body
 
     if (!body.name || !body.size || !body.type || !body.content) {
       return NextResponse.json({ message: "Invalid file data" }, { status: 400 });

@@ -5,7 +5,7 @@ const uri = process.env.MONGODB_URI as string;
 const client = new MongoClient(uri);
 
 export async function GET(req: NextRequest) {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "");
+  const token = req.headers.get("authorization")?.replace("Bearer ", "") || null;
   if (!token) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
