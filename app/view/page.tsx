@@ -1,4 +1,5 @@
-"use client";
+"use client"; // Ensures this runs only in the client
+
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -21,7 +22,7 @@ export default function ViewPage() {
         });
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
+          throw new Error(`Error: ${response.status}`); // Handle errors properly
         }
 
         const data = await response.json();
@@ -62,8 +63,8 @@ export default function ViewPage() {
             </table>
           </div>
         ))
-      ) : documentData.type === "docx" ?  (
-        <div>
+      ) : documentData.type === "docx" ? (
+        <div className="border border-gray-200 p-4 rounded-md bg-gray-100">
           <p>{documentData.content}</p>
         </div>
       ) : (
