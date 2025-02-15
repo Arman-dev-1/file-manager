@@ -108,7 +108,8 @@ export default function UploadPage() {
   };
 
   const generateShareableLink = (file: any) => {
-    return `${window.location.origin}/view?token=${file._id}`;
+    console.log("Generating shareable link for file:", file._id);
+    return `${window.location.origin}/view/${file._id}`;
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -120,7 +121,8 @@ export default function UploadPage() {
   });
 
   return (
-    <div className="p-4">
+    <div className="p-4 flex flex-col h-screen justify-between">
+      <div>
       <div {...getRootProps()} className="border-2 border-dashed p-6 cursor-pointer text-center">
         <input {...getInputProps()} />
         <p>Drag & drop a .docx or .xlsx file here, or click to upload</p>
@@ -158,6 +160,19 @@ export default function UploadPage() {
           ))}
         </tbody>
       </table>
+      </div>
+      <footer className="mt-8 p-4 border-t border-gray-300 text-center ">
+        <p>© 2023 Arman</p>
+        <div className="flex justify-center space-x-4 mt-2">
+          <a href="https://www.linkedin.com/in/shaikh-arman-833325314/" target="_blank" rel="noopener noreferrer" className="text-blue-600">
+            LinkedIn
+          </a>
+          <a href="https://github.com/Arman-dev-1" target="_blank" rel="noopener noreferrer" className="text-gray-800">
+            GitHub
+          </a>
+        </div>
+      </footer>
+
     </div>
   );
 }
